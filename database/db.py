@@ -35,7 +35,7 @@ class Food_DB(Base):
     category = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(
-        timezone=True), server_default=func.now(), onupdate=func.current_timestamp())
+        timezone=True), default=func.now(), onupdate=func.current_timestamp())
 
 
 class Drink_DB(Base):
@@ -49,7 +49,7 @@ class Drink_DB(Base):
     size = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(
-        timezone=True), server_default=func.now(), onupdate=func.current_timestamp())
+        timezone=True), default=func.now(), onupdate=func.current_timestamp())
 
 
 class Order_DB(Base):
@@ -58,7 +58,7 @@ class Order_DB(Base):
     status = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(
-        timezone=True), server_default=func.now(), onupdate=func.current_timestamp())
+        timezone=True), default=func.now(), onupdate=func.current_timestamp())
     buyer_id = Column(Integer, ForeignKey("buyer.id"))
 
 
@@ -70,7 +70,7 @@ class Buyer_DB(Base):
     whatsapp = Column(String)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(
-        timezone=True), server_default=func.now(), onupdate=func.current_timestamp())
+        timezone=True), default=func.now(), onupdate=func.current_timestamp())
     orders = relationship("Order_DB")
 
 
