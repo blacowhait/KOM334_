@@ -1,0 +1,3 @@
+- Drink CRUD
+- classes to models
+- routes to controller
