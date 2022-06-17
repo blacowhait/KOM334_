@@ -1,8 +1,5 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
 from route import menu_routes, food_routes, drink_routes, order_routes, buyer_routes
-
-load_dotenv()
 
 app = FastAPI()
 
