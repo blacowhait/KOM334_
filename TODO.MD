@@ -1,3 +1,5 @@
-- Drink CRUD
-- classes to models
-- routes to controller
+- Menu CRUD
+- Order CRUD
+- Order status list
+- Order update status
+- 
