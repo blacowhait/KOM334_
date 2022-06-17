@@ -86,6 +86,9 @@ class Drink(Menu):
         drink.type = DRINK_TYPE(request.type).name,
         drink.size = DRINK_SIZE(request.size).name
         db.commit()
+        print("category" + str(drink.category))
+        print("type" + str(drink.type))
+        print("size" + str(drink.size))
         db.refresh(drink)
 
         return drink
@@ -98,4 +101,6 @@ class Drink(Menu):
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
 
         drink.delete()
+        db.commit()
+
         return id

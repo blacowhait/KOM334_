@@ -67,11 +67,8 @@ class Food(Menu):
         food.description = request.description,
         food.price = request.price,
         food.category = FOOD_CATEGORY(request.category).name,
-        print("1")
         db.commit()
-        print("2")
         db.refresh(food)
-        print("3")
 
         return food
 
@@ -83,4 +80,6 @@ class Food(Menu):
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
 
         food.delete()
+        db.commit()
+
         return id

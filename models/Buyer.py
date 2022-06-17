@@ -66,4 +66,6 @@ class Buyer():
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
 
         buyer.delete()
+        db.commit()
+
         return id
