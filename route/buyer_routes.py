@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 from classes.Buyer import Buyer, BuyerCreate
 from database.db import get_db
@@ -25,7 +25,8 @@ async def buyer_create(request: BuyerCreate, response: Response, db: Session = D
     try:
         buyer = Buyer.create(request, db)
     except:
-        return f"Something Happened during creating Buyer"
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something Happened during creating Buyer")
 
     response.status_code = status.HTTP_201_CREATED
     return buyer
@@ -38,4 +39,5 @@ async def buyer_update(id: int, request: BuyerCreate, db: Session = Depends(get_
 
 @router.delete('/{id}')
 async def buyer_delete(id: int,  db: Session = Depends(get_db)):
-    return Buyer.delete(id, db)
+    buyerid = Buyer.delete(id, db)
+    return {"detail": f"Buyer with id {buyerid} successfully deleted"}

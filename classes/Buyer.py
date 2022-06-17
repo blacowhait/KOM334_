@@ -50,22 +50,20 @@ class Buyer():
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
 
-        print(buyer)
-
         buyer.name = request.name
         buyer.email = request.email
         buyer.whatsapp = request.whatsapp
         db.commit()
+        db.refresh(buyer)
 
         return buyer
 
     def delete(id: int,  db: Session = Depends(get_db)):
-        buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
-        if not buyer:
+        buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id)
+        exist = buyer.first()
+        if not exist:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
 
-        buyer.delete(synchronize_session=False)
-        db.commit()
-
-        return f"Buyer with id {id} successfully deleted"
+        buyer.delete()
+        return id
