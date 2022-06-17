@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database.db import Food_DB, get_db
-from classes.Menu import Menu
+from models.Menu import Menu
 
 
 # ------------------------ Enum

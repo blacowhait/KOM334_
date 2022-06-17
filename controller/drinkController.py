@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
-from classes.Drink import Drink, DrinkCreate
+from models.Drink import Drink, DrinkCreate
 from database.db import get_db
 
 

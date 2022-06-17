@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from route import menu_routes, food_routes, drink_routes, order_routes, buyer_routes
+from controller import buyerController, drinkController, foodController, menuController, orderController
 
 app = FastAPI()
 
@@ -8,8 +8,8 @@ app = FastAPI()
 async def index():
     return "Hello! Welcome to Shop."
 
-app.include_router(menu_routes.router)
-app.include_router(food_routes.router)
-app.include_router(drink_routes.router)
-app.include_router(order_routes.router)
-app.include_router(buyer_routes.router)
+app.include_router(menuController.router)
+app.include_router(foodController.router)
+app.include_router(drinkController.router)
+app.include_router(orderController.router)
+app.include_router(buyerController.router)

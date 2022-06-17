@@ -1,7 +1,7 @@
 import datetime
 from pydantic import BaseModel
-from classes.Buyer import Buyer
-from classes.Menu import Menu
+from models.Buyer import Buyer
+from models.Menu import Menu
 
 
 class Order():

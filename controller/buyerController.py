@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
-from classes.Buyer import Buyer, BuyerCreate
+from models.Buyer import Buyer, BuyerCreate
 from database.db import get_db
 
 
