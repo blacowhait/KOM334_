@@ -1,40 +1,18 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
+from route import menu_routes, food_routes, drink_routes, order_routes, buyer_routes
 
-from schema import CoffeeSchema
+load_dotenv()
 
 app = FastAPI()
 
 
 @app.get('/')
 async def index():
-    return "Hello! Welcome to Coffee Shop."
+    return "Hello! Welcome to Shop."
 
-
-@app.get('/coffee')
-async def get_all_coffees():
-    # coffee.read_all()
-    pass
-
-
-@app.get('/coffee/{id}')
-async def get_coffee(id):
-    # coffee.read_one()
-    pass
-
-
-@app.post('/coffee')
-async def add_coffee(coffee: CoffeeSchema):
-    # coffee.create()
-    pass
-
-
-@app.put('/coffee/{id}')
-async def add_coffee(id):
-    # coffee.create()
-    pass
-
-
-@app.delete('/coffee/{id}')
-async def delete_coffee(id):
-    # coffee.delete()
-    pass
+app.include_router(menu_routes.router)
+app.include_router(food_routes.router)
+app.include_router(drink_routes.router)
+app.include_router(order_routes.router)
+app.include_router(buyer_routes.router)
