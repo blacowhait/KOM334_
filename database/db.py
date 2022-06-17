@@ -56,6 +56,7 @@ class Order_DB(Base):
     __tablename__ = 'order'
     id = Column(Integer, primary_key=True, index=True)
     status = Column(String)
+    total_price = Column(Integer)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(
         timezone=True), default=func.now(), onupdate=func.current_timestamp())
@@ -72,6 +73,18 @@ class Buyer_DB(Base):
     time_updated = Column(DateTime(
         timezone=True), default=func.now(), onupdate=func.current_timestamp())
     orders = relationship("Order_DB")
+
+
+class Order_Food(Base):
+    __tablename__ = "order_food"
+    order_id = Column(Integer, ForeignKey("order.id"), primary_key=True)
+    food_id = Column(Integer, ForeignKey("food.id"), primary_key=True)
+
+
+class Order_Drink(Base):
+    __tablename__ = "order_drink"
+    order_id = Column(Integer, ForeignKey("order.id"), primary_key=True)
+    drink_id = Column(Integer, ForeignKey("drink.id"), primary_key=True)
 
 
 Base.metadata.create_all(bind=engine)
