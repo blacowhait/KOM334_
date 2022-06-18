@@ -1,14 +1,15 @@
-from typing import Optional
 from fastapi import FastAPI
+from controller import buyerController, drinkController, foodController, menuController, orderController
 
 app = FastAPI()
 
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+@app.get('/')
+async def index():
+    return "Hello! Welcome to Shop."
 
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+app.include_router(menuController.router)
+app.include_router(foodController.router)
+app.include_router(drinkController.router)
+app.include_router(orderController.router)
+app.include_router(buyerController.router)
