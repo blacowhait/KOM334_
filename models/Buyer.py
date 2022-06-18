@@ -33,6 +33,12 @@ class Buyer():
         return buyer
 
     def create(request: BuyerCreate, db: Session = Depends(get_db)):
+        email_exist = db.query(Buyer_DB).filter(
+            Buyer_DB.email == request.email).first()
+        if email_exist:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail=f"Buyer with email {request.email} already exists")
+
         buyer = Buyer_DB(
             name=request.name,
             email=request.email,
@@ -49,6 +55,12 @@ class Buyer():
         if not buyer:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {id} not found")
+
+        email_exist = db.query(Buyer_DB).filter(
+            Buyer_DB.email == request.email).first()
+        if email_exist:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail=f"Buyer with email {request.email} already exists")
 
         buyer.name = request.name
         buyer.email = request.email
@@ -69,3 +81,9 @@ class Buyer():
         db.commit()
 
         return id
+
+    def is_exist(id: int,  db: Session = Depends(get_db)):
+        buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
+        if not buyer:
+            return False
+        return True

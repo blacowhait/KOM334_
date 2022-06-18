@@ -107,3 +107,10 @@ class Drink(Menu):
         db.commit()
 
         return id
+
+    def are_exist(drinks: list, db: Session = Depends(get_db)):
+        for drink in drinks:
+            exist = db.query(Drink_DB).filter(Drink_DB.id == drink.id).first()
+            if not exist:
+                return drink.id
+        return False

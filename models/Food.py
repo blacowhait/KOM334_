@@ -91,3 +91,10 @@ class Food(Menu):
         db.commit()
 
         return id
+
+    def are_exist(foods: list, db: Session = Depends(get_db)):
+        for food in foods:
+            exist = db.query(Food_DB).filter(Food_DB.id == food.id).first()
+            if not exist:
+                return food.id
+        return False
