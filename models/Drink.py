@@ -106,7 +106,7 @@ class Drink(Menu):
         drink.delete()
         db.commit()
 
-        return {"message" : "Berhasil dihapus!"}
+        return id
 
     def is_exist(id: int, db: Session = Depends(get_db)):
         exist = db.query(Drink_DB).filter(Drink_DB.id == id).first()

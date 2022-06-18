@@ -80,7 +80,7 @@ class Buyer():
         buyer.delete()
         db.commit()
 
-        return {"message" : "Berhasil dihapus!"}
+        return id
 
     def is_exist(id: int, db: Session = Depends(get_db)):
         buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
