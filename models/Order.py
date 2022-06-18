@@ -114,6 +114,7 @@ class Order():
             db.commit()
 
         return Order.get_one(order.id, db)
+        #return {"message" : "Berhasil dibuat!"}
 
     def update(id: int, request: OrderUpdate, db: Session = Depends(get_db)):
         order = db.query(Order_DB).filter(Order_DB.id == id)
@@ -147,6 +148,7 @@ class Order():
             db.commit()
 
         return Order.get_one(exist.id, db)
+        #return {"message" : "Berhasil diupdate!"}
 
     def update_status(id: int, request: int, db: Session = Depends(get_db)):
         order = db.query(Order_DB).filter(Order_DB.id == id)
@@ -175,4 +177,4 @@ class Order():
         drink.delete()
         db.commit()
 
-        return id
+        return {"message" : "Berhasil dihapus!"}

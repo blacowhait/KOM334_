@@ -66,7 +66,7 @@ class Food(Menu):
         db.commit()
         db.refresh(food)
 
-        return food
+        return {"message" : "Berhasil dibuat!"}
 
     def update(id: int, request: FoodCreate, db: Session = Depends(get_db)):
         food = db.query(Food_DB).filter(Food_DB.id == id)
@@ -78,7 +78,7 @@ class Food(Menu):
         food.update(request.dict())
         db.commit()
 
-        return food.first()
+        return {"message" : "Berhasil diupdate!"}
 
     def delete(id: int,  db: Session = Depends(get_db)):
         food = db.query(Food_DB).filter(Food_DB.id == id)
@@ -90,7 +90,7 @@ class Food(Menu):
         food.delete()
         db.commit()
 
-        return id
+        return {"message" : "Berhasil dihapus!"}
 
     def is_exist(id: int, db: Session = Depends(get_db)):
         exist = db.query(Food_DB).filter(Food_DB.id == id).first()

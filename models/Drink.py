@@ -82,7 +82,7 @@ class Drink(Menu):
         db.commit()
         db.refresh(drink)
 
-        return drink
+        return {"message" : "Berhasil dibuat!"}
 
     def update(id: int, request: DrinkCreate, db: Session = Depends(get_db)):
         drink = db.query(Drink_DB).filter(Drink_DB.id == id)
@@ -94,7 +94,7 @@ class Drink(Menu):
         drink.update(request.dict())
         db.commit()
 
-        return drink.first()
+        return {"message" : "Berhasil diupdate!"}
 
     def delete(id: int,  db: Session = Depends(get_db)):
         drink = db.query(Drink_DB).filter(Drink_DB.id == id)
@@ -106,7 +106,7 @@ class Drink(Menu):
         drink.delete()
         db.commit()
 
-        return id
+        return {"message" : "Berhasil dihapus!"}
 
     def is_exist(id: int, db: Session = Depends(get_db)):
         exist = db.query(Drink_DB).filter(Drink_DB.id == id).first()

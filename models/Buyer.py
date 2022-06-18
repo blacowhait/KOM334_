@@ -48,7 +48,7 @@ class Buyer():
         db.commit()
         db.refresh(buyer)
 
-        return buyer
+        return {"message" : "Berhasil dibuat!"}
 
     def update(id: int, request: BuyerCreate, db: Session = Depends(get_db)):
         buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
@@ -68,7 +68,7 @@ class Buyer():
         db.commit()
         db.refresh(buyer)
 
-        return buyer
+        return {"message" : "Berhasil diupdate!"}
 
     def delete(id: int,  db: Session = Depends(get_db)):
         buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id)
@@ -80,7 +80,7 @@ class Buyer():
         buyer.delete()
         db.commit()
 
-        return id
+        return {"message" : "Berhasil dihapus!"}
 
     def is_exist(id: int, db: Session = Depends(get_db)):
         buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
