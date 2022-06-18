@@ -92,9 +92,8 @@ class Food(Menu):
 
         return id
 
-    def are_exist(foods: list, db: Session = Depends(get_db)):
-        for food in foods:
-            exist = db.query(Food_DB).filter(Food_DB.id == food.id).first()
-            if not exist:
-                return food.id
-        return False
+    def is_exist(id: int, db: Session = Depends(get_db)):
+        exist = db.query(Food_DB).filter(Food_DB.id == id).first()
+        if not exist:
+            return False
+        return True

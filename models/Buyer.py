@@ -82,7 +82,7 @@ class Buyer():
 
         return id
 
-    def is_exist(id: int,  db: Session = Depends(get_db)):
+    def is_exist(id: int, db: Session = Depends(get_db)):
         buyer = db.query(Buyer_DB).filter(Buyer_DB.id == id).first()
         if not buyer:
             return False

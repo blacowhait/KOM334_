@@ -82,15 +82,17 @@ class Order():
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Buyer with id {request.buyer_id} not found")
 
-        food_id_not_found = Food.are_exist(request.foods, db)
-        if food_id_not_found:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=f"Food with id {food_id_not_found} not found")
+        for id in request.foods:
+            exist = Food.is_exist(id, db)
+            if not exist:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail=f"Food with id {id} not found")
 
-        drink_id_not_found = Drink.are_exist(request.drinks, db)
-        if not drink_id_not_found:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail=f"Drink with id {drink_id_not_found} not found")
+        for id in request.drinks:
+            exist = Drink.is_exist(id, db)
+            if not exist:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail=f"Drink with id {id} not found")
 
         order = Order_DB(
             status=ORDER_STATUS(1).name,
