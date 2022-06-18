@@ -1,4 +1,5 @@
 import enum
+from typing import List
 from pydantic import BaseModel
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -27,8 +28,8 @@ class OrderMenu():
 
 class OrderCreate(BaseModel):
     total_price: int
-    drinks: list[int]
-    foods: list[int]
+    drinks: List[int]
+    foods: List[int]
     buyer_id: int
 
     class Config:
@@ -38,8 +39,8 @@ class OrderCreate(BaseModel):
 class OrderUpdate(BaseModel):
     status: int
     total_price: int
-    drinks: list[int]
-    foods: list[int]
+    drinks: List[int]
+    foods: List[int]
     buyer_id: int
 
     class Config:
@@ -52,8 +53,8 @@ class OrderUpdate(BaseModel):
 class Order():
     status: str
     total_price: int
-    drink: list[int]
-    food: list[int]
+    drink: List[int]
+    food: List[int]
     buyer: Buyer
 
     def get_all(db: Session = Depends(get_db)):
@@ -113,8 +114,8 @@ class Order():
             db.add(drink)
             db.commit()
 
-        return Order.get_one(order.id, db)
-        #return {"message" : "Berhasil dibuat!"}
+        #return Order.get_one(order.id, db)
+        return {"message" : "Berhasil dibuat!"}
 
     def update(id: int, request: OrderUpdate, db: Session = Depends(get_db)):
         order = db.query(Order_DB).filter(Order_DB.id == id)
@@ -161,7 +162,8 @@ class Order():
         order.update({"status": request})
         db.commit()
 
-        return Order.get_one(exist.id, db)
+        #return Order.get_one(exist.id, db)
+        return {"message" : "Status berhasil diupdate!"}
 
     def delete(id: int,  db: Session = Depends(get_db)):
         order = db.query(Order_DB).filter(Order_DB.id == id)
@@ -177,4 +179,4 @@ class Order():
         drink.delete()
         db.commit()
 
-        return {"message" : "Berhasil dihapus!"}
+        return id

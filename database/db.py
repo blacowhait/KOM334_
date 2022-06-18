@@ -12,7 +12,7 @@ DB_NAME = "KOM334"
 
 
 # connstring = "postgresql://postgres:root@localhost:5432/KOM334"
-connstring = "sqlite:///./KOM334.db"
+connstring = "sqlite:///./KOM334.db?check_same_thread=False"
 engine = create_engine(connstring, echo=False)
 
 sqlalchemy_session = sessionmaker(bind=engine)
