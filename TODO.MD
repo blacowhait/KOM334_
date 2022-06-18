@@ -1,5 +1,0 @@
-- Menu CRUD
-- Order CRUD
-- Order status list
-- Order update status
-- 

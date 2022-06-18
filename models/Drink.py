@@ -2,7 +2,7 @@ import enum
 from pydantic import BaseModel
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database.db import Drink_DB, get_db
+from database.db import Drink_DB, Order_Drink, get_db
 from models.Menu import Menu
 
 
@@ -58,6 +58,17 @@ class Drink(Menu):
 
         return drink
 
+    def get_by_order(order_id: int, db: Session = Depends(get_db)):
+        order_drinks = db.query(Order_Drink).filter(
+            Order_Drink.order_id == order_id).all()
+
+        drinks = []
+        for order_drink in order_drinks:
+            drink = Drink.get_one(order_drink.drink_id, db)
+            drinks.append(drink)
+
+        return drinks
+
     def create(request: DrinkCreate, db: Session = Depends(get_db)):
         drink = Drink_DB(
             name=request.name,
@@ -74,21 +85,16 @@ class Drink(Menu):
         return drink
 
     def update(id: int, request: DrinkCreate, db: Session = Depends(get_db)):
-        drink = db.query(Drink_DB).filter(Drink_DB.id == id).first()
-        if not drink:
+        drink = db.query(Drink_DB).filter(Drink_DB.id == id)
+        exist = drink.first()
+        if not exist:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Drink with id {id} not found")
 
-        drink.name = request.name,
-        drink.description = request.description,
-        drink.price = request.price,
-        drink.category = DRINK_CATEGORY(request.category).name,
-        drink.type = DRINK_TYPE(request.type).name,
-        drink.size = DRINK_SIZE(request.size).name
+        drink.update(request.dict())
         db.commit()
-        db.refresh(drink)
 
-        return drink
+        return drink.first()
 
     def delete(id: int,  db: Session = Depends(get_db)):
         drink = db.query(Drink_DB).filter(Drink_DB.id == id)

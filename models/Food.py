@@ -2,7 +2,7 @@ import enum
 from pydantic import BaseModel
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database.db import Food_DB, get_db
+from database.db import Food_DB, Order_Food, get_db
 from models.Menu import Menu
 
 
@@ -44,6 +44,17 @@ class Food(Menu):
 
         return food
 
+    def get_by_order(order_id: int, db: Session = Depends(get_db)):
+        order_foods = db.query(Order_Food).filter(
+            Order_Food.order_id == order_id).all()
+
+        foods = []
+        for order_food in order_foods:
+            food = Food.get_one(order_food.food_id, db)
+            foods.append(food)
+
+        return foods
+
     def create(request: FoodCreate, db: Session = Depends(get_db)):
         food = Food_DB(
             name=request.name,
@@ -58,19 +69,16 @@ class Food(Menu):
         return food
 
     def update(id: int, request: FoodCreate, db: Session = Depends(get_db)):
-        food = db.query(Food_DB).filter(Food_DB.id == id).first()
-        if not food:
+        food = db.query(Food_DB).filter(Food_DB.id == id)
+        exist = food.first()
+        if not exist:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail=f"Drink with id {id} not found")
 
-        food.name = request.name,
-        food.description = request.description,
-        food.price = request.price,
-        food.category = FOOD_CATEGORY(request.category).name,
+        food.update(request.dict())
         db.commit()
-        db.refresh(food)
 
-        return food
+        return food.first()
 
     def delete(id: int,  db: Session = Depends(get_db)):
         food = db.query(Food_DB).filter(Food_DB.id == id)

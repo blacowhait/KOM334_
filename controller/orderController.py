@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
-from models.Order import Order, OrderCreate
+from models.Order import Order, OrderCreate, OrderUpdate
 from database.db import get_db
 
 router = APIRouter(
@@ -32,7 +32,7 @@ async def order_create(request: OrderCreate, response: Response, db: Session = D
 
 
 @router.put('/{id}')
-async def order_update(id: int, request: OrderCreate, db: Session = Depends(get_db)):
+async def order_update(id: int, request: OrderUpdate, db: Session = Depends(get_db)):
     return Order.update(id, request, db)
 
 
@@ -40,3 +40,8 @@ async def order_update(id: int, request: OrderCreate, db: Session = Depends(get_
 async def order_delete(id: int,  db: Session = Depends(get_db)):
     orderid = Order.delete(id, db)
     return {"detail": f"Order with id {orderid} successfully deleted"}
+
+
+@router.post('/status/{id}')
+async def order_update_status(id: int, request: int, db: Session = Depends(get_db)):
+    return Order.update_status(id, request, db)
